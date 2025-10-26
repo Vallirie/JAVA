@@ -24,7 +24,7 @@ public class Main{
                         size = cs.nextInt();
                         cs.nextLine();
                     } catch (InputMismatchException e) {
-                        System.out.println("Please enter a valid integer for the number of names.");
+                        System.out.println("Please enter a valid integer for the number of names.\n");
                         cs.nextLine();
                         break;
                     }
