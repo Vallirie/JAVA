@@ -1,4 +1,1 @@
-# My-Java-Journey
-Wala lang
-sa
-a
+I'm learning java to understand the concept of DSA and OOP deeply
