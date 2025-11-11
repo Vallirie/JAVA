@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.Locale.Category;
 
 public class CitizenPortal {
     Scanner cs = new Scanner(System.in);
@@ -227,7 +226,7 @@ public void saveCitizensToFile() {
     }
 }
 
-// Load citizens from file
+
 public void loadCitizensFromFile() {
     File file = new File(CITIZENS_FILE);
     if (!file.exists()) return;
@@ -244,20 +243,21 @@ public void loadCitizensFromFile() {
     }
 }
 
-// Save all complaints to file
 public void saveComplaintsToFile() {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(COMPLAINTS_FILE))) {
         for (Complaint c : complaints) {
-            bw.write("\nTicket Number: " + c.getId() + "\n" +
-                     "Username: " + c.getCitizen().getUsername() + "\n" +
-                     "Status: " + c.getStatus() + "\n" +
-                     "Feedback: " + c.getFeedback() + "\n" +
-                     "Remarks: " + c.getRemarks() + "\n" +
-                     "Category: " + c.getCategory() + "\n" +
-                     "Description: " + c.getDescription() + "\n" +
-                     "Location: " + c.getLocation() + "\n" +
-                     "Date: " + c.getDate() + "\n" +
-                     "Department: " + c.getDepartment());
+            bw.write(
+                c.getId() + "," +
+                c.getCitizen().getUsername() + "," +
+                c.getStatus() + "," +
+                c.getFeedback() + "," +
+                c.getRemarks() + "," +
+                c.getCategory() + "," +
+                c.getDescription() + "," +
+                c.getLocation() + "," +
+                c.getDate() + "," +
+                c.getDepartment()
+            );
             bw.newLine();
         }
     } catch (IOException e) {
@@ -266,32 +266,31 @@ public void saveComplaintsToFile() {
 }
 
 
+
 public void loadComplaintsFromFile() {
-    File file = new File(COMPLAINTS_FILE);
-    if (!file.exists()) return;
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] d = line.split(",");
-            if (d.length >= 10) {
-                
-                for (User u : citizen) {
-                    if (u.getUsername().equals(d[1])) {
-                        Complaint c = new Complaint(d[5], d[6], d[7], d[8], u);
-                        c.setStatus(d[2]);
-                        c.setFeedback(d[3]);
-                        c.setRemarks(d[4]);
-                        c.setDepartment(d[9]); 
-                        complaints.add(c);
-                        break;
+        File file = new File(COMPLAINTS_FILE);
+        if (!file.exists()) return;
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] d = line.split(",");
+                if (d.length >= 10) {
+                    for (User u : citizen) {
+                        if (u.getUsername().equals(d[1])) {
+                            Complaint c = new Complaint(d[5], d[6], d[7], d[8], u);
+                            c.setStatus(d[2]);
+                            c.setFeedback(d[3]);
+                            c.setRemarks(d[4]);
+                            c.setDepartment(d[9]);
+                            complaints.add(c);
+                            break;
+                        }
                     }
                 }
             }
+        } catch (IOException e) {
+            System.out.println("Error loading complaints: " + e.getMessage());
         }
-    } catch (IOException e) {
-        System.out.println("Error loading complaints: " + e.getMessage());
     }
-}
-// ================== END FILE HANDLING ==================
 
 }
